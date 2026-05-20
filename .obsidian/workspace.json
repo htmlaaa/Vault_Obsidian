@@ -1,0 +1,223 @@
+{
+  "main": {
+    "id": "7023700a13dc8942",
+    "type": "split",
+    "children": [
+      {
+        "id": "ee04fd4807358f1d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a0f5e67bbed9a0c3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Kausarina_GAME/Mapa-Biomas-PixelLab.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Mapa-Biomas-PixelLab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d33f7cbeb317a3c9",
+    "type": "split",
+    "children": [
+      {
+        "id": "1960c22a5cf49828",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "93b8728989fe8d84",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "48c76c952488a586",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "4dac060a459dda34",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "435463ae0ec38d85",
+    "type": "split",
+    "children": [
+      {
+        "id": "26d5d93be110c54b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2fc088b7acee1709",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Sesiones/Sesion-2026-05-06-Refactor-Base.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de Sesion-2026-05-06-Refactor-Base"
+            }
+          },
+          {
+            "id": "8af14ee4f9df0c34",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "e5de2ded59009d9a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "05d3c59ea9d0e013",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "b319db732681f92a",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "a0f5e67bbed9a0c3",
+  "lastOpenFiles": [
+    "Proyectos/Balance/Balance-v1.md",
+    "Proyectos/Balance/Balance-v1.md.tmp.2224.52334ccba31d",
+    "Proyectos/Sistemas/Upgrades-Por-Rol.md",
+    "Proyectos/Sistemas/Upgrades-Por-Rol.md.tmp.2224.9139e479349f",
+    "Proyectos/Sistemas/Inventario-6-Slots.md",
+    "Proyectos/Sistemas/Inventario-6-Slots.md.tmp.2224.f60d6dadceca",
+    "Proyectos/Devlog/2026-05-20-Sprint-D-E.md",
+    "Proyectos/Devlog/2026-05-20-Sprint-D-E.md.tmp.2224.d43c37b4796c",
+    "Proyectos/Balance",
+    "Proyectos/Sistemas",
+    "Proyectos/Devlog",
+    "Sesiones/Sesion-2026-05-20-Sprint12-Mapas-Plan.md",
+    "Sesiones/Sesion-2026-05-20-Sprint10-Cierre.md",
+    "Sesiones/Sesion-2026-05-20-Sprint10-Cierre.md.tmp.2224.859bb63d4292",
+    "Kausarina_GAME/Balance-Review-Sprint10.md",
+    "Kausarina_GAME/Balance-Review-Sprint10.md.tmp.2224.007b4ad0d3c0",
+    "Design/Ambientacion.md",
+    "Sesiones/Sesion-2026-05-18-Sprint8-Cierre-PostMVP.md",
+    "Kausarina_GAME/Pendientes-Tecnicos.md",
+    "Sesiones/Sesion-2026-05-16-Sprint5-Cierre-Sprint6-Inscripciones.md",
+    "Sesiones/Sesion-2026-05-17-Sprint7-Code.md",
+    "Sesiones/Sesion-2026-05-18-Sprint7-Cierre-Sprint8-Plan.md",
+    "Pendientes/Sprint7-Assets-Diseño.md",
+    "Pendientes/Sprint7-Assets-Diseño.md.tmp.18448.3b5539c4582f",
+    "Tecnologia/LibGDX-Framework.md",
+    "pixel/prompts/characters/mago.md",
+    "Kausarina_GAME/Audio-Basico.md",
+    "Kausarina_GAME/Arquero-Minijefe.md",
+    "pixel/prompts/characters/tirador.md",
+    "pixel/prompts/characters/caballero.md",
+    "Test Sprint 6/README.md",
+    "README.md",
+    "Pendientes-Sprint6-2026-05-16.md",
+    "Kausarina_GAME/Sistema-Ataques-Roles.md",
+    "Kausarina_GAME/Sistema-Mana-Armas-Dual.md",
+    "Kausarina_GAME/Sprint3-Efectos-Enemigos.md"
+  ]
+}
