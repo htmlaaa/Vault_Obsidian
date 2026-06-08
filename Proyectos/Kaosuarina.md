@@ -49,9 +49,10 @@ A_Game_Kaosuarina/
 │   │   └── CreditsScreen.java           ← Créditos TFG
 │   ├── entities/
 │   │   ├── Player.java
-│   │   ├── Enemy.java                   ← 9 tipos: BASICO/RAPIDO/TANQUE/SHOOTER/MALDITO/ESPECTRAL/GUARDIAN/ARQUERO/DEVASTADOR
-│   │   ├── Bala.java / BalaEnemiga.java
-│   │   └── PoolBalas / PoolEnemigos / PoolBalasEnemigas
+│   │   ├── Enemy.java                   ← 17 tipos: BASICO/RAPIDO/TANQUE/SHOOTER/MALDITO/ESPECTRAL/GUARDIAN/ARQUERO/DEVASTADOR
+│   │   │                                             BERSERKER/SPLITTER/HEALER/SHIELDER/ELITE_CHARGE/ELITE_SUMMON/ELITE_ZONE/FRAGMENTADO
+│   │   ├── Bullet.java / EnemyBullet.java
+│   │   └── BulletPool / EnemyPool / EnemyBulletPool
 │   ├── roles/
 │   │   └── Role.java                    ← Factory: caballero(), mago(), shooter()
 │   ├── reliquias/
@@ -66,6 +67,7 @@ A_Game_Kaosuarina/
 │   │   ├── WeaponPool.java              ← Pre-alloca 6 instancias en init(); nunca new en loop
 │   │   ├── WeaponType.java              ← ESPADA_VERDUGO · MARTILLO_JUICIO · BACULO_ARCANO · TOMO_CAOS · PISTOLAS_GEMELAS · RIFLE_PRECISION
 │   │   ├── WeaponCategory.java          ← NORMAL | SKILL
+│   │   ├── WeaponDropper.java           ← genera armas tiered T1-T5 + afijos con sesgo de rol 60/25/15%
 │   │   ├── Inscription.java             ← Interfaz: onHit(), damageMult(), extraPierce(), bypassesDefense()
 │   │   ├── InscriptionPool.java         ← Pool de las 9 inscripciones
 │   │   └── inscriptions/
@@ -95,7 +97,7 @@ A_Game_Kaosuarina/
 │   │   └── HUD.java                     ← Vida, maná, XP, timer, score, slots arma, barra boss, core display
 │   └── utils/
 │       ├── Constants.java               ← Toda constante de tuning (armas, inscripciones, amuletos, bosses, partículas)
-│       ├── ColisionManager.java         ← Facade de colisiones + cálculo de daño tipado + overkill maná
+│       ├── CollisionManager.java        ← Facade de colisiones + cálculo de daño tipado + overkill maná
 │       ├── DamageType.java              ← FISICO | MAGICO | A_DISTANCIA | FUEGO | VENENO | CAOS
 │       ├── StatusEffect.java            ← BURN / POISON sobre enemigos
 │       ├── Particle.java                ← Partícula individual (pos, vel, vida, color, tamaño)
@@ -199,19 +201,29 @@ Equipables durante la run; spawn cada 6-8 oleadas. Pool pre-allocado (`AmuletPoo
 | Tipo | Vel | HP | Def | ResMág | Comportamiento especial |
 |------|-----|----|-----|--------|------------------------|
 | `BASICO` | 150 | 40 | 0 | 0 | Persigue |
-| `RAPIDO` | 300 | 12 | 0 | 0 | Persigue, frágil |
-| `TANQUE` | 80 | 180 | 20 | 0 | Persigue; débil a MAGICO (+50%) |
-| `SHOOTER` | 100 | 50 | 5 | 5 | Orbita 300-500u; huye si cerca; dispara cada 2s |
+| `RAPIDO` | 300 | 25 | 0 | 0 | Persigue, kamikaze frágil |
+| `TANQUE` | 80 | 110 | 20 | 0 | Persigue; resistente a FISICO (40%); débil a MAGICO |
+| `SHOOTER` | 100 | 35 | 5 | 5 | Orbita 300-500u; huye si cerca; dispara cada 2s |
 | `MALDITO` | 130 | 45 | 0 | 0 | **Explota al morir** (r=120, 25 dmg VENENO + POISON); veneno de contacto jugador (4s, 5 dps) |
 | `ESPECTRAL` | 160 | 35 | 0 | 10 | **Inmune a FISICO**; +50% FUEGO; alpha 0.45 |
-| `GUARDIAN` | 60 | 800 | 0 | 0 | **Minijefe** — shockwave radial cada 3s (r=150, 20 dmg); fase 2 al 50% HP: vel ×1.2 + 2 BASICO |
-| `ARQUERO` | 90 | 500 | 0 | 0 | **Minijefe** — teleporta cada 4s; dispara proyectil 18 dmg cada 2s; contacto 15 dmg |
-| `DEVASTADOR` | 60/100 | 2000 | 0 | 0 | **Boss final** — ver sección dedicada |
+| `BERSERKER` | 120 | 60 | 0 | 0 | Carga directa; al <20% HP: velocidad ×3 (modo rabia) |
+| `SPLITTER` | 100 | 50 | 0 | 0 | Normal; **al morir: spawn de 2 copias al 40% HP** |
+| `HEALER` | 80 | 35 | 0 | 0 | Huye del player; **cura 10 HP/s a aliados en radio 150u** |
+| `SHIELDER` | 60 | 80 | 0 | 0 | Lento; **70% defensa base** |
+| `ELITE_CHARGE` | 140 | 120 | 10 | 0 | Telegrafía 1.5s → **carga recta devastadora** |
+| `ELITE_SUMMON` | 80 | 90 | 0 | 5 | Huye; **invoca 3 BASICO cada 8s** |
+| `ELITE_ZONE` | 50 | 100 | 0 | 0 | Estacionario; **crea zona lenta radio 120u** (45% slowdown) |
+| `GUARDIAN` | 60 | 900 | 0 | 0 | **Minijefe (ola 10)** — shockwave radial cada 3s (r=150, 20 dmg); fase 2 al 50% HP: vel ×1.2 + 2 BASICO |
+| `ARQUERO` | 90 | 400 | 0 | 0 | **Minijefe (ola 20)** — teleporta cada 4s; dispara proyectil 18 dmg cada 2s; contacto 15 dmg |
+| `FRAGMENTADO` | 80 | 1600 | 0 | 0 | **Boss (ola 30)** — 3 fases: Física → Mágica → Caos |
+| `DEVASTADOR` | 60/100 | 2200 | 0 | 0 | **Boss final (ola 50)** — ver sección dedicada |
 
-> [!tip] Probabilidades de spawn (pool normal — 6 tipos)
+> [!tip] Probabilidades de spawn (pool normal — 6 tipos base)
 > BASICO 40% · RAPIDO 20% · TANQUE 10% · SHOOTER 10% · MALDITO 12% · ESPECTRAL 8%
 >
-> GUARDIAN, ARQUERO y DEVASTADOR se spawnean por eventos de oleada, no por este pool.
+> BERSERKER, SPLITTER, HEALER, SHIELDER entran en el pool a partir de oleadas medias.
+> ELITE_CHARGE, ELITE_SUMMON, ELITE_ZONE spawnean según `eliteChancePct` por dificultad.
+> GUARDIAN, ARQUERO, FRAGMENTADO y DEVASTADOR se spawnean por eventos de oleada.
 
 > [!warning] Anti-recursión MALDITO
 > Explosión al morir procesada en el siguiente frame para evitar recursión en grupos.
@@ -233,7 +245,7 @@ Aparece en **oleada 50** (y oleadas 100, 150…). Derrotarlo activa la condició
 
 | Stat | Fase 1 | Fase 2 (≤50% HP) |
 |------|--------|-----------------|
-| HP total | 2000 | — |
+| HP total | 2200 | — |
 | Velocidad | 60 u/s | 100 u/s |
 | Daño contacto | 25 | 25 |
 | Daño proyectil | 22 | 22 |
@@ -342,13 +354,13 @@ Color de partículas determinado por `Enemy.Tipo`: DEVASTADOR → negro/magenta.
 | `LeaderboardScreen` | Top 10 runs desde BD | ESC/ENTER→MainMenu |
 | `CreditsScreen` | Créditos TFG | ESC/ENTER/SPACE→MainMenu |
 
-### Base de datos (MySQL)
+### Base de datos (SQLite)
 
-Patrón **DAO** con JDBC. Guardado transaccional al terminar cada run.
+Patrón **DAO** con JDBC. Guardado transaccional al terminar cada run. BD embebida `kaosuarina.db` junto al JAR — sin servidor externo.
 
-**Tablas**: `run` · `run_kill` (kills por tipo de enemigo) · `run_upgrade` · `run_reliquia` · `run_arma` (arma + inscripción por slot)
+**Tablas**: `run` · `run_kill` (kills por tipo de enemigo) · `run_upgrade` · `run_reliquia` · `run_arma` (arma + inscripción por slot) · `meta_tokens` (tokens de meta-progresión persistentes entre runs)
 
-> [!warning] La BD usa MySQL en localhost:3306. Migración a SQLite embebido pendiente en **S9-05a** para que el JAR sea autocontenido.
+> [!success] BD migrada de MySQL a **SQLite embebido** en Sprint 9 (`org.xerial:sqlite-jdbc:3.45.3.0`). El JAR es autocontenido — no requiere instalación de servidor.
 
 ## Roles jugables
 
@@ -357,15 +369,15 @@ Patrón **DAO** con JDBC. Guardado transaccional al terminar cada run.
 
 | Rol | HP | Defensa | Res.Mág | Vel | Maná | Estilo |
 |-----|----|---------|---------|----|------|--------|
-| **Caballero** | 200 | 20 | 0 | 250 px/s | 50 | Melee reactivo, alta supervivencia |
-| **Mago** | 70 | 5 | 15 | 270 px/s | 120 + regen 2/s | Caster de área, gestión de maná |
+| **Caballero** | 200 | 20 | 0 | 250 px/s | 40 | Melee reactivo, alta supervivencia |
+| **Mago** | 85 | 5 | 15 | 270 px/s | 120 + regen 2/s | Caster de área, gestión de maná |
 | **Tirador** | 80 | 5 | 0 | 340 px/s | 30 | Auto-shoot veloz, combo de kills |
 
 ### Reliquias
 
 | Rol | Reliquia | Mecánica |
 |-----|----------|---------|
-| Caballero | **Fortaleza Reactiva** | Al recibir daño: +1 stack armadura (max 5, -8%/stack). Sin daño 4s → pierde 1/s |
+| Caballero | **Fortaleza Reactiva** | Al recibir daño: +1 stack armadura (max 5, -7%/stack). Sin daño 2s → pierde 1/s |
 | Mago | **Resonancia Caótica** | Proyectiles rebotan 1 vez hacia enemigo más cercano (r=200u) |
 | Tirador | **Momentum de Combate** | Kills acumulan Combo (max 10, -3% CD/stack). Sin kill 2s → -1/s |
 
@@ -384,18 +396,18 @@ Patrón **DAO** con JDBC. Guardado transaccional al terminar cada run.
 
 | Patrón | Dónde |
 |--------|-------|
-| Object Pool | `PoolBalas`, `PoolEnemigos`, `PoolBalasEnemigas`, `WeaponPool`, `InscriptionPool`, `AmuletPool`, `ParticlePool` |
-| State flag | campo `active` en `Bala`, `BalaEnemiga`, `Enemy`; campo `active` en `Particle` |
+| Object Pool | `BulletPool`, `EnemyPool`, `EnemyBulletPool`, `WeaponPool`, `InscriptionPool`, `AmuletPool`, `ParticlePool` |
+| State flag | campo `active` en `Bullet`, `EnemyBullet`, `Enemy`; campo `active` en `Particle` |
 | Factory Method | `Role.caballero()`, `Role.mago()`, `Role.shooter()` |
 | Strategy | `Enemy.Tipo` (switch por tipo); `Reliquia` (interfaz por rol); `Inscription` (interfaz por inscripción) |
-| Facade | `ColisionManager` — toda detección y cálculo de daño |
+| Facade | `CollisionManager` — toda detección y cálculo de daño |
 | DAO / VO | `db/` — `RunDAO` interfaz, `RunDAOImpl` implementación JDBC, `RunVO` value object |
 
 ### Reglas de arquitectura
 
 - `new` entity **nunca** dentro del game loop — siempre usar pools
 - Valores de tuning **solo** en `Constants.java` o `UpgradeManager`, nunca inline
-- Toda colisión y cálculo de daño pasa **solo** por `ColisionManager`
+- Toda colisión y cálculo de daño pasa **solo** por `CollisionManager`
 - Un rol → un factory method → un `PlayerStats` configurado → una `Reliquia`
 - Toda inscripción implementa `Inscription`; su lógica vive en su propia clase
 
@@ -450,7 +462,7 @@ Pickup (cofre/scroll/amuleto): radio configurable en Constants
 > [!success] v0.6 — Sprint 6
 > - **Sistema de inscripciones**: 9 tipos via scroll; interfaz `Inscription` con `onHit()` / `damageMult()` / `extraPierce()` / `bypassesDefense()`
 > - **Amuletos**: `AmuletType` / `AmuletPool`, spawn configurable cada 6-8 oleadas
-> - **Minijefe Guardián**: HP 800, shockwave radial cada 3s, fase 2 al 50% HP invoca 2 BASICO; drop de scroll al morir
+> - **Minijefe Guardián**: HP ~~800~~ **900** (actualizado Sprint 10), shockwave radial cada 3s, fase 2 al 50% HP invoca 2 BASICO; drop de scroll al morir
 > - **Scrolls de inscripción**: spawn y UI de selección de slot (timer 5s)
 > - **Overkill maná**: el exceso de daño letal se convierte en maná (`daño_excedente ÷ 20`)
 > - **HUD barra boss**: muestra HP del minijefe activo con etiqueta
@@ -461,6 +473,24 @@ Pickup (cofre/scroll/amuleto): radio configurable en Constants
 > - **Cofres**: spawn cada 2-3 oleadas, swap menu con timeout 5s
 > - **WeaponSkill** activables con Q/E, con coste de maná y cooldown visual en HUD
 > - **Maná extendido**: +5 por kill, +1 por impacto, overkill ÷20 hook
+
+> [!success] v0.11 — Sprint 11 (2026-06-01)
+> - **WeaponDropper**: `generate(depth, roleHint)` — 12 armas tiered T1-T5 con sesgo de rol 60/25/15%; inscripción 30% probabilidad
+> - **Sistema de afijos completo**: 11 afijos rollados — Afilado (`dmg_flat`), Cruel (`dmg_pct`), Veloz (`atk_speed_pct`), Resoluto (`reduced_cd_pct`), Letal (`crit_chance`), Brutal (`crit_dmg`), Vampírico (`lifesteal_pct`), de Maná (`mp_regen`), de Fuego, de Veneno, de Caos — cada uno con efecto en `ColisionManager` / `Player`
+> - **Fix lifesteal**: `PlayerStats.lifeStealPercent` (antes nunca leído) ahora sumado en `ColisionManager.aplicarEfectosOnHit()`
+> - **HUD afijos**: `WeaponCard.affixLabel` — nombre del afijo visible en slot de arma
+> - **Balance "Kausarina Verzente"**: `SPAWN_BASE_COUNT` 12→7, `SPAWN_PER_LEVEL` 3→5, `DIFICULTAD_RAMP_FACTOR` 0.84→0.86, `SPAWN_INTERVAL_BASE` 18→15, `INVULNERABILITY_MAGO` 0.30→0.42s, `INVULNERABILITY_SHOOTER` 0.20→0.25s, `STATUS_BURN_DAMAGE` 8→5, `ARQUERO_HP` 300→400
+> - **Balance roles**: Mago HP 70→85; `ReliquiaCaballero` DECAY_DELAY 4→2s, reducción/stack 0.08→0.07
+
+> [!success] v0.10 — Sprint 10 (2026-05-20)
+> - **Depth scaling**: multiplicadores de HP/daño desde `depthscaling.json` — escala continua más allá de oleada 50
+> - **Resistencias JSON**: resistencias por tipo de daño por tipo de enemigo desde `enemies.json` (ej. TANQUE 40% resist FISICO)
+> - **CAOS_PRIMORDIAL**: daño verdadero (ignora defensa y resistencias) + ralentización 2s al 50% velocidad
+> - **Inventario 6 slots**: armas (2) + amuletos (4) con interfaz unificada
+> - **Upgrades por rol**: cada rol tiene su pool propio de mejoras diferenciadas
+> - **7 amuletos**: todos con efectos activos implementados (`AmuletType`)
+> - **Animaciones idle 4 dirs**: Caballero, Mago y Tirador con sprites animados (PixelLab, `AnimationSheets`)
+> - **Fix Tirador**: auto-disparo corregido en todos los escenarios de edge-case
 
 > [!success] v0.9 — Sprint 9 (2026-05-19)
 > - **SQLite**: BD migrada de MySQL a SQLite embebido (`kaosuarina.db` junto al JAR, sin servidor)
@@ -505,18 +535,21 @@ Pickup (cofre/scroll/amuleto): radio configurable en Constants
 > - [ ] **S9-01** 🎨 Animaciones idle en 4 dirs → **Sprint 10**
 > - [ ] **S9-02** 🎨 5 SFX WAV + 1 OGG música → **Sprint 10**
 
-> [!todo] Sprint 10 — Infinite Game + Assets diseño
-> - [ ] **S10-INF** Modo infinito: el juego continúa más allá de oleada 50 sin condición de victoria; el Devastador reaparece periódicamente como boss de ronda
-> - [ ] **S10-INF** Escalado post-50: HP/dmg enemies continúan multiplicándose (depth scaling de `depthscaling.json`)
-> - [ ] **S10-INF** Pantalla de puntuación infinita: mostrar oleada máxima alcanzada tras morir
-> - [ ] **S10-D1** 🎨 Animaciones idle Caballero (east/north/west), Mago (4 dirs), Shooter (4 dirs) — PixelLab MCP
-> - [ ] **S10-D2** 🎨 Archivos de audio (5 SFX WAV + 1 OGG música) — Kenney.nl CC0, colocar en `assets/audio/`
+> [!success] Sprint 10 — CERRADO (2026-05-20)
+> - [x] **S10-INF** Depth scaling desde `depthscaling.json` — HP/daño escalan con profundidad
+> - [x] **S10-INF** Resistencias por tipo de daño desde `enemies.json`
+> - [x] **S10-INF** CAOS_PRIMORDIAL true damage + ralentización
+> - [x] **S10-D1** 🎨 Animaciones idle 4 dirs — Caballero, Mago, Tirador (PixelLab MCP)
+> - [x] **S10-INV** Inventario 6 slots + upgrades por rol + 7 amuletos
+> - [x] **S10-FIX** Fix Tirador auto-disparo
+> - [ ] **S10-D2** 🎨 Archivos de audio (5 SFX WAV + 1 OGG música) — **pendiente Sprint 12**
 
-> [!todo] Sprint 11 — Rediseño de armas (infraestructura ya lista en `data/`)
-> - [ ] Integrar `WeaponInstanceFactory` con el drop de cofres (tiers T1-T5 con colores hex de `tiers.json`)
-> - [ ] Mostrar afijos en el HUD al recoger un arma
-> - [ ] `WeaponGenerator` usa loot tables (`loottables.json` / `enemyloot.json`)
-> - [ ] 6 habilidades activas vinculadas a `skills.json`
+> [!success] Sprint 11 — CERRADO (2026-06-01)
+> - [x] **S11-WD** `WeaponDropper` — 12 armas tiered+afijos con sesgo de rol 60/25/15%
+> - [x] **S11-AFX** 11 afijos completos con efectos en `ColisionManager` / `Player` / `Bala`
+> - [x] **S11-HUD** `WeaponCard.affixLabel` — afijo visible en slot HUD
+> - [x] **S11-FIX** Fix `lifeStealPercent` nunca leído → ahora activo en `aplicarEfectosOnHit()`
+> - [x] **S11-BAL** Balance "Kausarina Verzente" — spawn, iframes, BURN, TANQUE/SHOOTER hp, Caballero reliquia
 
 > [!todo] Backlog largo plazo
 > - [ ] IA adaptativa con FSM (comportamiento reactivo a la build del jugador)

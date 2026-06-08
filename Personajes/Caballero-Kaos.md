@@ -78,13 +78,22 @@ Rol de tipo **Tank / Frontline** en el Vacío Kaótico. Contrapartida sólida al
 
 ## Stats del rol
 
-| Stat | Valor |
-|------|-------|
-| Vida | 150 HP |
-| Velocidad | 250 px/s |
-| Daño base | 15 |
-| Core | Fortaleza Reactiva |
-| Especialidad | Alta resistencia, builds defensivas |
+| Stat | Valor | Fuente |
+|------|-------|--------|
+| Vida | **200 HP** | `Role.caballero()` |
+| Velocidad | 250 px/s | `PlayerStats.baseSpeed` |
+| Defensa física | 20 | `s.physicalDefense = 20f` |
+| Maná máx. | 40 | `MANA_MAX_CABALLERO_BASE` |
+| Regen maná | 0 /s | Solo recupera por kills (+5) y Cicatriz |
+| Daño melee (ligero) | 38 | `s.meleeLightDamage` |
+| Daño melee (pesado) | 72 | `s.meleeHeavyDamage` |
+| CD ataque ligero | 0.20 s | `s.lightAttackCooldown` |
+| CD ataque pesado | 1.0 s | `s.heavyAttackCooldown` |
+| Reliquia | Fortaleza Reactiva | `ReliquiaCaballero` |
+| Especialidad | Alta resistencia, builds defensivas | — |
+
+> [!note] Actualizado 2026-06-06
+> HP corregido de 150 → 200 para coincidir con `Role.caballero()` actual. Añadidos stats de maná y ataques manuales.
 
 ---
 

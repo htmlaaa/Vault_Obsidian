@@ -132,21 +132,32 @@ no background, no antialiasing, no gradients, no smooth edges, no 3D rendering, 
 
 ---
 
-## Stats del rol (propuesta)
+## Stats del rol
 
-| Stat | Valor |
-|------|-------|
-| Vida | 75 HP |
-| Velocidad | 270 px/s |
-| Daño base | 20 |
-| Core | Vacío arcano |
-| Especialidad | Proyectiles de área, ralentización |
+| Stat | Valor | Fuente |
+|------|-------|--------|
+| Vida | **85 HP** | `Role.mago()` |
+| Velocidad | 270 px/s | `PlayerStats.baseSpeed` |
+| Defensa física | 5 | `s.physicalDefense = 5f` |
+| Resistencia mágica | 15 | `s.magicResistance = 15f` |
+| Maná máx. | 120 | `MANA_MAX_MAGO_BASE` |
+| Regen maná | **2.0 /s** | `MAGE_PASSIVE_REGEN` — único pasivo |
+| Daño bolt (ligero) | 34 | `s.magicLightDamage` |
+| Daño blast (pesado) | 85 | `s.magicHeavyDamage` |
+| Coste bolt | 8 maná | `s.magicLightManaCost` |
+| Coste blast | 35 maná | `s.magicHeavyManaCost` |
+| CD ataque ligero | 0.28 s | `s.lightAttackCooldown` |
+| CD ataque pesado | 1.5 s | `s.heavyAttackCooldown` |
+| Reliquia | Resonancia Caótica | `ReliquiaMago` |
+| Especialidad | Proyectiles de área, bolt redirigible | — |
+
+> [!note] Actualizado 2026-06-06
+> HP corregido de 75 → 85 para coincidir con `Role.mago()` actual. Añadidos stats de maná, regen, daño y costes.
 
 > [!todo] Pendiente
 > - [ ] Generar sprite en PixelLab con el prompt de arriba
 > - [ ] Exportar como `mago-kaos.png` (64×64, transparente)
 > - [ ] Añadir a `A_Game_Kaosuarina/assets/sprites/`
-> - [ ] Crear clase `PlayerMago.java` o sistema de roles que cargue el sprite correcto
 
 ---
 
