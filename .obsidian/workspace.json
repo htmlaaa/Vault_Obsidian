@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "pixel/prompts/enemies/enemies-pixellab.md",
+                "file": "Sesiones/2026-06-08.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "enemies-pixellab"
+              "title": "2026-06-08"
             }
           }
         ]
@@ -183,18 +183,26 @@
   },
   "active": "a0f5e67bbed9a0c3",
   "lastOpenFiles": [
+    "Sesiones/2026-06-09.md",
+    "Sesiones/2026-06-10.md",
+    "Sesiones/Sesion-2026-05-06-Refactor-Base.md",
+    "Sesiones/Sesion-2026-05-11-Rediseno-RPG-Dia1.md",
     "Sesiones/2026-06-08.md",
+    "Proyectos/Devlog/2026-05-20-Sprint-D-E.md",
+    "Sesiones/2026-06-09.md.tmp.11888.beb09edbba2a",
+    "skills/obsidian-markdown.md",
+    "skills/obsidian-bases.md",
+    "Sesiones/Sesion-2026-06-07-Sprites-Enemigos-64px.md",
+    "Sesiones/Sesion-2026-06-06-Refactor-Ingles.md",
+    "pixel/prompts/enemies/enemies-pixellab.md",
     "Sesiones/2026-06-08.md.tmp.21884.a8efea4e9268",
     "pixel/prompts/enemies/enemies-pixellab.md.tmp.59968.a43973c715a7",
-    "Sesiones/Sesion-2026-06-07-Sprites-Enemigos-64px.md",
     "Sesiones/Sesion-2026-06-04-SprintPlan-Bugs-Dificultad.md",
-    "pixel/prompts/enemies/enemies-pixellab.md",
     "pixel/prompts/enemies/enemies-pixellab.md.tmp.59968.432c4c855a3c",
     "pixel/prompts/enemies",
     "Proyectos/Kaosuarina.md.tmp.59968.379fc13aec3a",
     "Proyectos/Kaosuarina.md.tmp.59968.25455ca70416",
     "Proyectos/Kaosuarina.md.tmp.59968.0d5a31e6a6a4",
-    "Sesiones/Sesion-2026-06-06-Refactor-Ingles.md",
     "Design/Cores-Sinergias.md",
     "Design/Ambientacion.md",
     "Proyectos/Kaosuarina-Progreso.md",
@@ -202,8 +210,6 @@
     "Proyectos/Balance/Balance-v1.md",
     "Proyectos/Kaosuarina.md.tmp.25860.0fdaba9f6d27",
     "Proyectos/Kaosuarina.md.tmp.25860.28fc212a5030",
-    "Proyectos/Kaosuarina.md.tmp.25860.b85637010af9",
-    "Proyectos/Devlog/2026-05-20-Sprint-D-E.md",
     "Sesiones/Sesion-2026-06-01-Balance-Audio-Sprint11.md",
     "Proyectos/Sistemas/Upgrades-Por-Rol.md",
     "Proyectos/Sistemas/Inventario-6-Slots.md",
@@ -212,12 +218,6 @@
     "Sesiones/Sesion-2026-05-20-Sprint10-Cierre.md",
     "Sesiones/Sesion-2026-05-18-Sprint8-Cierre-PostMVP.md",
     "Kausarina_GAME/Pendientes-Tecnicos.md",
-    "Sesiones/Sesion-2026-05-16-Sprint5-Cierre-Sprint6-Inscripciones.md",
-    "Sesiones/Sesion-2026-05-17-Sprint7-Code.md",
-    "Sesiones/Sesion-2026-05-18-Sprint7-Cierre-Sprint8-Plan.md",
-    "Pendientes/Sprint7-Assets-Diseño.md",
-    "Tecnologia/LibGDX-Framework.md",
-    "pixel/prompts/characters/mago.md",
-    "Kausarina_GAME/Audio-Basico.md"
+    "Sesiones/Sesion-2026-05-16-Sprint5-Cierre-Sprint6-Inscripciones.md"
   ]
 }
